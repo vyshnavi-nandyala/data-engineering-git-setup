@@ -1,0 +1,53 @@
+# ═══════════════════════════════════════════════════════════════
+#  Data Engineering Commit Message Template
+#  Format: <type>(<scope>): <subject>
+# ═══════════════════════════════════════════════════════════════
+#
+# TYPE (choose one):
+#   feat     – new feature or capability
+#   fix      – bug fix
+#   refactor – code restructure (no behaviour change)
+#   perf     – performance improvement
+#   docs     – documentation only
+#   test     – add or update tests
+#   chore    – build, deps, tooling changes
+#   data     – data file or dataset changes
+#   schema   – database/table schema changes
+#   revert   – revert a previous commit
+#
+# SCOPE (choose one or combine):
+#   data-ingestion   transformation   pipeline
+#   quality          deployment       monitoring
+#   infrastructure   dbt              airflow
+#   glue             redshift         s3
+#
+# ── SUBJECT (line 1) ─────────────────────────────────────────
+# • Use imperative mood: "add" not "added" / "adds"
+# • Max 72 characters
+# • No period at the end
+#
+# Examples:
+#   feat(data-ingestion): add support for Parquet file format
+#   fix(pipeline): handle null values in order_date column
+#   perf(transformation): partition by date to reduce scan cost
+#   schema(dbt): add customer_tier column to dim_customers
+#   chore(deps): upgrade pandas to 2.1.0
+#
+# ─────────────────────────────────────────────────────────────
+
+# <type>(<scope>): <subject — max 72 chars>
+
+
+# ── BODY (optional — leave blank line above) ──────────────────
+# Explain the WHY, not the what. What problem does this solve?
+# Wrap at 72 characters.
+
+
+# ── FOOTER (optional) ─────────────────────────────────────────
+# Reference issues or tickets:
+#   Closes #123
+#   Refs #456
+#   JIRA: DE-789
+#   Breaking-Change: old API removed
+#
+# ─────────────────────────────────────────────────────────────

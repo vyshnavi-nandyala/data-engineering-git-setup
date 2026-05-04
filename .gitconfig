@@ -1,0 +1,208 @@
+# ═══════════════════════════════════════════════════════════════
+#  Data Engineering Git Configuration
+#  Copy to ~/.gitconfig or run install.sh
+# ═══════════════════════════════════════════════════════════════
+
+[user]
+	name  = Your Name
+	email = you@example.com
+
+# ── Core behaviour ────────────────────────────────────────────
+[core]
+	editor          = vim
+	autocrlf        = input
+	whitespace      = fix,space-before-tab,-indent-with-non-tab,trailing-space
+	pager           = less -FRSX
+	commitGraph     = true
+	hooksPath       = ~/.git-hooks
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+
+[merge]
+	ff      = only
+	tool    = vimdiff
+	conflictstyle = diff3
+
+[rebase]
+	autoStash  = true
+	autoSquash = true
+
+[fetch]
+	prune = true
+
+[help]
+	autocorrect = 10        # auto-fix typos after 1 second
+
+[diff]
+	algorithm    = histogram
+	colorMoved   = zebra
+	tool         = vimdiff
+
+[log]
+	date = format:%Y-%m-%d %H:%M
+
+# ── Beautiful colors ──────────────────────────────────────────
+[color]
+	ui     = always
+	branch = always
+	diff   = always
+	status = always
+	log    = always
+	grep   = always
+
+[color "branch"]
+	current  = bold green
+	local    = yellow
+	remote   = bold cyan
+	upstream = bold magenta
+	plain    = white
+
+[color "diff"]
+	meta       = bold yellow
+	frag       = magenta bold
+	old        = bold red
+	new        = bold green
+	whitespace = red reverse
+	commit     = bold yellow
+	context    = white
+
+[color "status"]
+	added     = bold green
+	changed   = bold yellow
+	untracked = bold red
+	branch    = bold cyan
+	nobranch  = bold red
+	header    = white
+
+[color "grep"]
+	match     = bold green
+	filename  = bold cyan
+	linenumber = yellow
+
+[color "decorate"]
+	branch      = bold green
+	remoteBranch = bold cyan
+	tag         = bold yellow
+	stash       = bold magenta
+	HEAD        = bold red
+
+# ── Pretty log formats ────────────────────────────────────────
+[format]
+	pretty = format:%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(bold yellow)[%an]%C(reset)%C(bold red)%d%C(reset)
+
+# ── Data Engineering Aliases ──────────────────────────────────
+[alias]
+
+	# ── Standard shortcuts ──────────────────────────────────
+	st      = status -sb
+	co      = checkout
+	br      = branch -vv
+	cm      = commit -m
+	amend   = commit --amend --no-edit
+	unstage = reset HEAD --
+	last    = log -1 HEAD --stat
+	undo    = reset --soft HEAD~1
+	ignore  = update-index --assume-unchanged
+	unignore = update-index --no-assume-unchanged
+	aliases = config --get-regexp alias
+	branches = branch -a
+	remotes = remote -v
+	tags    = tag -l
+	stashes = stash list
+
+	# ── Data Engineering: status ────────────────────────────
+	de-status = "!git status -sb && echo '' && echo '── Stashes ──' && git stash list"
+
+	# ── Data Engineering: pretty log ────────────────────────
+	de-log = log \
+		--graph \
+		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(bold yellow)[%an]%C(reset)%C(bold red)%d%C(reset)' \
+		--abbrev-commit \
+		--date=format:'%Y-%m-%d %H:%M'
+
+	# ── Short one-line graph ─────────────────────────────────
+	graph   = log --graph --oneline --all --decorate
+
+	# ── Data Engineering: branch list ───────────────────────
+	de-branch = "!git branch -vv --color=always | \
+		awk '{print NR\". \"$0}' | \
+		sed 's/feat\\//🚀 feat\\//;s/fix\\//🐛 fix\\//;s/data\\//📊 data\\//;s/schema\\//🗂  schema\\//;s/pipeline\\//⚙️  pipeline\\//'"
+
+	# ── Data Engineering: colored diff ──────────────────────
+	de-diff = diff --stat --color=always
+
+	# ── Commit with DE template opened ──────────────────────
+	de-commit = commit --template ~/.gitmessage
+
+	# ── Push with upstream set ──────────────────────────────
+	de-push = "!BRANCH=$(git rev-parse --abbrev-ref HEAD) && \
+		echo \"Pushing branch: $BRANCH\" && \
+		git push --set-upstream origin $BRANCH"
+
+	# ── Review staged changes before committing ─────────────
+	de-review = "!echo '══ STAGED CHANGES ══' && \
+		git diff --cached --stat && echo '' && \
+		echo '══ DIFF ══' && \
+		git diff --cached --color=always | head -100"
+
+	# ── Pipeline commits (feat/fix/perf for pipeline scope) ─
+	de-pipeline = log \
+		--all --graph --oneline --decorate \
+		--grep='pipeline\|ingestion\|etl\|glue\|airflow' \
+		--regexp-ignore-case \
+		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(bold yellow)[%an]%C(reset)' \
+		--date=format:'%Y-%m-%d'
+
+	# ── Data-change commits ──────────────────────────────────
+	de-data = log \
+		--all --oneline --decorate \
+		--grep='data\|csv\|parquet\|s3\|dataset\|ingest' \
+		--regexp-ignore-case \
+		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset)' \
+		--date=format:'%Y-%m-%d'
+
+	# ── Schema-change commits ────────────────────────────────
+	de-schema = log \
+		--all --oneline --decorate \
+		--grep='schema\|migration\|alter\|table\|column\|dbt\|model' \
+		--regexp-ignore-case \
+		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset)' \
+		--date=format:'%Y-%m-%d'
+
+	# ── Who changed what in src/ ─────────────────────────────
+	de-blame = "!git log --follow -p --stat"
+
+	# ── Show files changed in last N commits ─────────────────
+	de-files = "!git diff --name-only HEAD~${1:-5}..HEAD"
+
+	# ── Show all contributors ────────────────────────────────
+	contributors = shortlog -sn --all --no-merges
+
+	# ── Weekly summary ───────────────────────────────────────
+	standup = log \
+		--since='1 week ago' \
+		--oneline --author \
+		--pretty=format:'%C(bold green)%ad%C(reset) %C(bold cyan)%h%C(reset) %s %C(yellow)[%an]%C(reset)' \
+		--date=format:'%a %Y-%m-%d'
+
+	# ── What changed since yesterday ─────────────────────────
+	today = log \
+		--since='24 hours ago' \
+		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %s %C(yellow)[%an]%C(reset)' \
+		--date=format:'%H:%M'
+
+	# ── Safety: dry-run push ──────────────────────────────────
+	dry-push = push --dry-run
+
+	# ── Clean merged local branches ──────────────────────────
+	clean-branches = "!git branch --merged main | grep -v '^[ *]*main$' | xargs -r git branch -d"
+
+# ── Push defaults ─────────────────────────────────────────────
+[push]
+	default         = current
+	followTags      = true
+	autoSetupRemote = true

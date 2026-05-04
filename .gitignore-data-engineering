@@ -1,0 +1,145 @@
+# ═══════════════════════════════════════════════════════════════
+#  .gitignore for Data Engineering Projects
+#  Copy to your project root as .gitignore
+# ═══════════════════════════════════════════════════════════════
+
+# ── Credentials & Secrets ────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service_account.json
+secrets/
+*_secret*
+*_credentials*
+aws_credentials
+.aws/credentials
+
+# ── Data Files (too large for git) ───────────────────────────
+*.csv
+*.tsv
+*.json
+!**/fixtures/*.json        # allow small test fixtures
+!**/sample/*.json
+*.jsonl
+*.ndjson
+*.parquet
+*.avro
+*.orc
+*.feather
+*.arrow
+*.hdf5
+*.h5
+*.pkl
+*.pickle
+*.npz
+*.npy
+*.db
+*.sqlite
+*.sqlite3
+data/raw/
+data/processed/
+data/curated/
+data/output/
+
+# ── Compressed archives ───────────────────────────────────────
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.bz2
+*.7z
+*.rar
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+ENV/
+.env/
+pip-log.txt
+pip-delete-this-directory.txt
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+.installed.cfg
+*.so
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+nosetests.xml
+.hypothesis/
+
+# ── Jupyter Notebooks ─────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb             # use nbstripout if you need to track notebooks
+
+# ── dbt ───────────────────────────────────────────────────────
+target/
+dbt_packages/
+logs/
+dbt.log
+
+# ── Airflow ───────────────────────────────────────────────────
+airflow/logs/
+airflow/plugins/__pycache__/
+airflow.db
+airflow.cfg
+standalone_admin_password.txt
+
+# ── Spark / PySpark ───────────────────────────────────────────
+derby.log
+metastore_db/
+spark-warehouse/
+
+# ── AWS ───────────────────────────────────────────────────────
+.aws/
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+!terraform.tfvars.example
+
+# ── Docker ────────────────────────────────────────────────────
+.docker/
+
+# ── IDEs ──────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# ── Logs ──────────────────────────────────────────────────────
+*.log
+logs/
+*.log.*
+
+# ── OS ────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V8
+.Trashes
+ehthumbs.db
+Desktop.ini
