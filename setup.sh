@@ -75,6 +75,7 @@ done
 # ── Pre-commit hook ───────────────────────────────────────────
 echo -e "\n${BOLD}Pre-commit Hook:${RESET}"
 HOOKS_PATH=$(git config --global core.hooksPath 2>/dev/null || echo "")
+HOOKS_PATH="${HOOKS_PATH/#\~/$HOME}"
 if [[ -n "$HOOKS_PATH" && -f "$HOOKS_PATH/pre-commit" && -x "$HOOKS_PATH/pre-commit" ]]; then
     ok "pre-commit hook installed at $HOOKS_PATH/pre-commit"
 else

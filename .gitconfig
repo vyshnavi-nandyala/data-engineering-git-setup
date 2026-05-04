@@ -152,7 +152,7 @@
 	# ── Pipeline commits (feat/fix/perf for pipeline scope) ─
 	de-pipeline = log \
 		--all --graph --oneline --decorate \
-		--grep='pipeline\|ingestion\|etl\|glue\|airflow' \
+		--extended-regexp --grep='pipeline|ingestion|etl|glue|airflow' \
 		--regexp-ignore-case \
 		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset) %C(bold yellow)[%an]%C(reset)' \
 		--date=format:'%Y-%m-%d'
@@ -160,7 +160,7 @@
 	# ── Data-change commits ──────────────────────────────────
 	de-data = log \
 		--all --oneline --decorate \
-		--grep='data\|csv\|parquet\|s3\|dataset\|ingest' \
+		--extended-regexp --grep='data|csv|parquet|s3|dataset|ingest' \
 		--regexp-ignore-case \
 		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset)' \
 		--date=format:'%Y-%m-%d'
@@ -168,7 +168,7 @@
 	# ── Schema-change commits ────────────────────────────────
 	de-schema = log \
 		--all --oneline --decorate \
-		--grep='schema\|migration\|alter\|table\|column\|dbt\|model' \
+		--extended-regexp --grep='schema|migration|alter|table|column|dbt|model' \
 		--regexp-ignore-case \
 		--pretty=format:'%C(bold cyan)%h%C(reset) %C(bold green)(%ad)%C(reset) %C(white)%s%C(reset)' \
 		--date=format:'%Y-%m-%d'
